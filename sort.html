@@ -8,7 +8,6 @@
 	<script src="node_modules/element-ui/lib/index.js"></script>
 	<script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
 	<script type="text/javascript" src="search.js"></script>
-	<script type="text/javascript" src="categories.js"></script>
 <style>
 [v-cloak]{
 		display: none;
@@ -63,7 +62,7 @@ a:active{  text-decoration:none;}
 					<div class="kuang" v-for="poetry in poetries">
 						<div >
 							<div style="text-align:left;margin-left:34px;margin-top:10px;color:#19537D;font-size:18px;font-weight:bold;cursor:pointer;"  
-							        :titleid=poetry.id @click="jumptopoem($event)">
+							        :titleid='poetry.id' @click="jumptopoem($event)">
 								    {{poetry.title}}
 							</div>
 							<div style="text-align:left;margin-left:32px;color:grey;font-size:14px">【作者】<span>{{poetry.author}}</span>【朝代】<span>{{Dynasty}}</span></div>
@@ -224,9 +223,9 @@ a:active{  text-decoration:none;}
 
 					buttonpoem(e){
 						if(e!=null){
-							this.selectedId=e.currentTarget.getAttributeNode("bid");
+							this.selectedId=e.currentTarget.getAttribute("bid");
 							console.log('selectedId:'+this.selectedId);
-							console.log('bid:'+e.currentTarget.getAttributeNode("bid"));
+							console.log('bid:'+e.currentTarget.getAttribute("bid"));
 						}
 						
 				   	   	var uri='http://rap2.taobao.org:38080/app/mock/245255/api/category/id/'+this.selectedId;
