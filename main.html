@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+
+	<title>main</title>
+
+	<script src="https://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>
+	<script src="node_modules/vue/dist/vue.js"></script>
+	<link rel="stylesheet" href="node_modules/element-ui/lib/theme-chalk/index.css">
+	<script src="node_modules/element-ui/lib/index.js"></script>
+	<script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+	<script src="search.js"></script>
+	<style>
+html{font-size:62.5%;}
+body {font:normal 100% Arial,sans-serif;font-size:14px; font-size:1.4rem; } 
+img { width:100%; -ms-interpolation-mode: bicubic;} 
+	[v-cloak]{
+		display: none;
+	}
+@keyframes fadein{
+    0%{opacity: 0;
+         }
+    100%{
+        opacity: 1;
+
+    }
+}
+@-webkit-keyframes fadein{
+        0%{opacity: 0;
+         }
+    100%{
+        opacity: 1;
+
+    }
+}
+@-moz-keyframes fadein{
+        0%{opacity: 0;
+         }
+    100%{
+        opacity: 1;
+
+    }
+}
+@-o-keyframes fadein{
+        0%{opacity: 0;
+         }
+    100%{
+        opacity: 1;
+
+    }
+}
+@-ms-keyframes fadein{
+        0%{opacity: 0;
+         }
+    100%{
+        opacity: 1;
+
+    }
+}
+body{
+    animation:fadein 3s linear 1;
+    -webkit-animation:fadein 3s linear 1;
+    -moz-animation:fadein 3s linear 1;
+    -o-animation:fadein 3s linear 1;
+    -ms-animation:fadein 3s linear 1;
+}
+input::-webkit-input-placeholder { 
+    /* WebKit browsers */ 
+    font-size:17px;
+    color: #333;
+    font-family:NSimSun; 
+} 
+input::-moz-placeholder { 
+    /* Mozilla Firefox 19+ */ 
+    font-size:17px;
+    color: #333;
+    font-family:NSimSun;
+} 
+input:-ms-input-placeholder { 
+    /* Internet Explorer 10+ */ 
+    font-size:17px;
+    color: #333;
+    font-family:NSimSun;
+}
+.middle{
+	display:inline-block;
+	width:80%;
+	height: 620px;
+	border: #C8C7BC solid 1.5px;
+	background-color:#F0EFE2;
+	border-radius: 15px;
+	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+	margin-top: 13px;
+	margin-left: 10%
+},
+.image{
+	display:inline-block;
+	margin: 70px 400px;
+	width:40px;
+	height:40px;
+}
+a{ color:white; text-decoration:none;}
+a:hover{ color:white; text-decoration:none;}
+a:active{ color:white; text-decoration:none;}
+</style>
+</head>
+<body style="background-color: #E1E0C7">
+	<div>
+	
+		<div class="container" id="container" v-cloak>
+			<my-component>
+				
+			</my-component>
+		</div>	
+		</div>
+	
+	
+
+		<script>
+			Vue.component('common-navigator',{
+				template:`<div v-cloak>
+					<el-menu
+					  :default-active="activeIndex2"
+					  class="el-menu-demo"
+					  mode="horizontal"
+					  background-color="#5D6146"
+					  text-color="#fff"
+					  active-text-color="#F0EFE2"
+					  >
+					
+		<img src="photo/1.png" style="float:left;margin-left:120px;
+		margin-top:5px;width:60px;height:50px;">
+					
+		  <el-menu-item index="1" ><a href="main.html">{{text1}}</a></el-menu-item>
+		  
+		  <el-menu-item index="3" ><a href="sort.html">{{text3}}</a></el-menu-item>
+		  <el-menu-item index="5" style="float: right;margin-right: 170px" @click="jump">{{text5}}&nbsp;<span class="demo-basic--circle"><span class="block"><el-avatar :size="26" :src="url" style="margin-bottom: 8px"></el-avatar></span></span></el-menu-item>
+		</el-menu>
+				
+				</div>`,
+				data(){
+					return{
+						activeIndex2: '1',
+								text1:'首页',
+								// text2:'诗文',
+								text3:'分类',
+								// text4:'社区',
+								text5:'登录',
+								url:'photo/head.png'
+						
+					}
+				},
+				methods:{
+					checkuser(){
+						var uri="http://rap2.taobao.org:38080/app/mock/245255/api/user/login/check"
+						axios({
+						 	 method: 'get',
+							  url: uri,
+							 })
+					    .then(response =>
+					      { 
+					      	if(response.data.code==200)
+					      	{
+						       
+						      	this.text5="用户中心"
+					       	}
+					      })
+					      .catch(function (error) { // 请求失败处理
+					        console.log(error);
+					      });
+					  },
+					  jump(){
+					  	if(this.text5=="登录")
+					  	{
+							window.location.href='login.html' ;
+					  	}else{
+							window.location.href='usercenter.html' ;
+					  	}
+					  }
+					},
+					mounted:function(){
+						this.checkuser();
+					}
+
+			});
+		Vue.component('my-component',{
+			template:`
+			<div>
+			<common-navigator></common-navigator>
+			<div class="middle" >
+			<div style="display:inline-block;margin: 70px 43%;"><img src="photo/1.png" style="width:190px;height:170px;">
+			</div>
+			<div style="margin-left:30%">
+			<common-search></common-search>
+			</div>
+			</div>
+			</div>
+			`,
+			data(){
+				return{
+					
+				}
+			},
+			methods:{
+			}
+		})
+		
+	
+		new Vue({
+		data(){
+			return{
+					
+				}		
+			},
+		methods:{
+		}
+		}).$mount('#container')
+  	
+		</script>
+</body>
+</html>
