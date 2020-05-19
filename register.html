@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Login</title>
+	<script src="node_modules/vue/dist/vue.js"></script>
+	<link rel="stylesheet" href="node_modules/element-ui/lib/theme-chalk/index.css">
+	<script src="node_modules/element-ui/lib/index.js"></script>
+	<script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+	<style>
+	[v-cloak]{
+		display: none;
+	}
+
+input::-webkit-input-placeholder { 
+    /* WebKit browsers */ 
+    font-size:17px;
+    color: #333;
+    font-family:NSimSun; 
+} 
+input::-moz-placeholder { 
+    /* Mozilla Firefox 19+ */ 
+    font-size:17px;
+    color: #333;
+    font-family:NSimSun;
+} 
+input:-ms-input-placeholder { 
+    /* Internet Explorer 10+ */ 
+    font-size:17px;
+    color: #333;
+    font-family:NSimSun;
+}
+.middle{
+	display:inline-block;
+	width:80%;
+	height: 629px;
+	border: #C8C7BC solid 1.5px;
+	background-color:#F0EFE2;
+	border-radius: 15px;
+	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+	margin-top: 13px;
+	margin-left: 10%
+}
+
+	</style>
+
+</head>
+<body style="background-color: #E1E0C7">
+	<div id="container" class="container">
+	<div class="middle">
+		<div style="margin-top: 100px;margin-left: 32%">
+		<el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign" >
+		  <el-form-item label="姓名">
+		    <el-input class="input" v-model="formLabelAlign.name" placeholder="请输入姓名" style="width:300px" ></el-input>
+		  </el-form-item>
+		  <el-form-item label="用户名">
+		    <el-input class="input" v-model="formLabelAlign.username" placeholder="请输入用户名" style="width:300px" ></el-input>
+		  </el-form-item>
+		  <el-form-item label="密码" >
+		    <el-input type="password" class="input" v-model="formLabelAlign.password" placeholder="请输入密码" style="width:300px;" ></el-input>
+		  </el-form-item>
+		   <el-form-item label="邮箱" prop="email" :rules="[
+			      { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+			      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+			    ]">
+		    <el-input class="input" v-model="formLabelAlign.email" placeholder="请输入邮箱" style="width:300px" ></el-input>
+		  </el-form-item>
+		</el-form>
+	<el-button type="success" round style="margin: 10px 80px;width:270px" v-text="text1" @click="add"></el-button>
+	</div>
+	</div>
+	</div>
+	<script>
+		new Vue({
+			data(){
+				return{
+				 	 labelPosition: 'right',
+					 formLabelAlign: {
+					  name:'',
+			          username: '',
+			          password: '',
+			          email:''
+			        },
+			        text1:'注册'
+				 }
+				},
+			methods:{
+				 open() {
+			        this.$message('恭喜，注册成功');
+			      },
+			      fail() {
+			        this.$alert('注册失败', '抱歉', {
+			          confirmButtonText: '确定',
+			          callback: action => {
+			            this.$message({
+			              type: 'info',
+			              message: `action: ${ action }`
+			            });
+			          }
+			        });
+			      },
+			      NullClick(){
+						if(this.formLabelAlign.username==''||this.formLabelAlign.password==''
+							||this.formLabelAlign.name==''||this.formLabelAlign.email==''){
+							this.$alert('输入框不能为空', '警告', {
+					          confirmButtonText: '确定',
+					          callback: action => {
+					            this.$message({
+					              type: 'info',
+					              message: `action: ${ action }`
+					            });
+					          }
+					        });
+					        return true;
+						}
+					},
+			
+			
+			
+			add() {
+				if(this.NullClick() == true){
+
+				}else{
+			    axios
+			      .post('http://rap2.taobao.org:38080/app/mock/245255/api/user/register',{
+			      	 name:this.formLabelAlign.name,
+			      	 username:this.formLabelAlign.username,
+			      	 password:this.formLabelAlign.password,
+			      	 email:this.formLabelAlign.email
+			      })
+			      .then(response =>
+			      { 
+			      	
+			      	if(response.data.code == 200){
+			      		this.open();
+			      		window.location.href='login.html';
+
+			      	}else{
+				  		this.fail();
+			      	}
+					
+			      })
+			      .catch(function (error) { // 请求失败处理
+			        console.log(error);
+			      });
+			  }
+			  }
+			}
+		}).$mount('#container')
+	</script>
+</body>
+</html>
