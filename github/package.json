@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "art-template": "^4.13.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "element-ui": "^2.13.0",
     "jsonp": "^0.2.1",
     "vue": "^2.6.11",
